@@ -7,7 +7,7 @@ info:
     API kasutab JWT autentimist kaitstud endpointide jaoks ja event-driven arhitektuuri 
     teenuste vahel. Mõeldud arendajatele ja integratsioonidele.
   contact:
-    name: Aleksander
+    name: Jarl
     email: example@example.com
 servers:
   - url: https://blog.local

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: comments
-          image: aleksandertapsi/comments:latest
+          image: jarlburget/comments:latest
           ports:
             - containerPort: 5001
 ---

@@ -20,7 +20,7 @@ The **Posts Service** is a simple backend API that lets users create and view bl
 
 ---
 
-# 1\. Project Setup and Dependencies
+# 1. Project Setup and Dependencies
 
 For the Posts service to run, you need to install the following dependencies in your project's root folder <SwmPath>[posts/](/posts/)</SwmPath>
 
@@ -28,45 +28,37 @@ For the Posts service to run, you need to install the following dependencies in 
 - <SwmToken path="/posts/index.js" pos="2:2:2" line-data="const cors = require(&quot;cors&quot;);">`cors`</SwmToken> - Enables Cross-Origin Resource Sharing.
 - <SwmToken path="/posts/index.js" pos="3:2:2" line-data="const axios = require(&quot;axios&quot;);">`axios`</SwmToken> - HTTP client used to send events to the Event Bus.
 
-If you are not in the posts folder, go to the posts folder
+If you are not in the posts folder, go to the posts folder:
 
 > cd posts
 
-Run installation command
+Run installation command:
 
-> npm i&nbsp;
+> npm i
 
-# 2\. Starting service
+# 2. Starting service
 
-o start the service using nodemon (for automatic restarts during development), use the npm start script defined in your <SwmPath>[posts/package.json](/posts/package.json)</SwmPath>.
+To start the service using nodemon (for automatic restarts during development), use the npm start script defined in your <SwmPath>[posts/package.json](/posts/package.json)</SwmPath>.
 
-If you are not in the posts folder in you terminal, go to the posts folder
+If you are not in the posts folder in your terminal, go to the posts folder:
 
 > cd posts
 
-Run command
+Run command:
 
 > npm start
 
-You should now see in the terminal
+You should now see in the terminal:
 
-> \\> posts@1.0.0 start
+> \> posts@1.0.0 start
 >
-> \\> nodemon index.js
+> \> nodemon index.js
 >
-> \[nodemon\] 3.1.10
+> ...
 >
-> \[nodemon\] to restart at any time, enter `rs`
->
-> \[nodemon\] watching path(s): *.*
->
-> \[nodemon\] watching extensions: js,mjs,cjs,json
->
-> \[nodemon\] starting `node index.js`
->
-> Posts Service is running on <http://localhost:5000>
+> Posts Service is running on http://localhost:5000
 
-# 3\. How Does It Work?&nbsp;
+# 3. How Does It Work?
 
 **Simple explanation:** When someone creates a post, two things happen:
 
@@ -89,7 +81,7 @@ graph TD
 - When the service restarts, all posts are lost
 - Each post gets an ID and has a title
 
-# 4\. API Endpoints
+# 4. API Endpoints
 
 This service provides two main API functionalities: creating a new post and retrieving all posts. The data is currently stored in the in-memory <SwmToken path="/posts/index.js" pos="11:2:2" line-data="const posts = [];">`posts`</SwmToken> array.
 
@@ -107,7 +99,7 @@ const posts = [];
 
 </SwmSnippet>
 
-## 4.1 POST /posts: Making a Post
+## 4.1 POST /posts/create: Making a Post
 
 <SwmSnippet path="/posts/index.js" line="17">
 
@@ -144,13 +136,13 @@ app.post("/posts/create", (req, res) => {
 
 </SwmSnippet>
 
-### 4.1.1Request Example
+### 4.1.1 Request Example
 
-Url: <localhost:5000/posts>
+Url: `http://localhost:5000/posts/create`
 
-Method: POST
+Method: `POST`
 
-Request body (raw)
+Request body (raw):
 
 ```json
 {
@@ -158,7 +150,17 @@ Request body (raw)
 }
 ```
 
-Response: 201 Created
+Response: `201 Created`
+
+```json
+{
+    "post": {
+        "id": "1",
+        "title": "Making first post"
+    },
+    "message": "Post created successfully"
+}
+```
 
 ## 4.2 GET /posts: Getting all Posts
 
@@ -166,7 +168,7 @@ Response: 201 Created
 
 ---
 
-This endpoint simply returns the current contents of the in-memory array.
+This endpoint simply returns the current contents of the in-memory array. Note that the posts service only stores the post data (id and title), not the comments. Comments are handled by the Query service.
 
 ```javascript
 app.get("/posts", (req, res) => {
@@ -180,17 +182,42 @@ app.get("/posts", (req, res) => {
 
 ### 4.2.1 Request Example
 
-Url <localhost:5000/posts>
+Url: `http://localhost:5000/posts`
 
-Method: GET
+Method: `GET`
 
-Response
+Response:
 
 ```json
-{"1":{"id":"1","title":"firstpost","comments":[{"id":"1","content":"comment","status":"approved"}]}}
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Making first post"
+    }
+  ]
+}
 ```
 
-# 6\. What's a Post Object? 
+## 4.3 POST /events: Receiving Events
+
+<SwmSnippet path="/posts/index.js" line="40">
+
+---
+
+This service also listens for events from the Event Bus. Currently, it receives events but does not perform any logic with them. It serves as a placeholder for future features or ensuring the service participates in the event network.
+
+```javascript
+app.post("/events", (req, res) => {
+  res.json({});
+});
+```
+
+---
+
+</SwmSnippet>
+
+# 5. What's a Post Object? 
 
 A post is just a JavaScript object with two fields:
 
@@ -205,7 +232,7 @@ A post is just a JavaScript object with two fields:
 
 ---
 
-# 7\. Common Issues & Solutions&nbsp;
+# 6. Common Issues & Solutions
 
 ## "Posts disappear when I restart!"
 
@@ -224,11 +251,11 @@ kubectl get pods
 Another service is using that port. Either:
 
 - Stop the other service
-- Change the PORT in `index.js`
+- Change the `PORT` in `index.js`
 
 ---
 
-# 8\. Testing Your Service 
+# 7. Testing Your Service 
 
 ## Using cURL (Terminal)
 
@@ -258,7 +285,7 @@ curl http://localhost:5000/posts
 
 3. **Send!**
 
-4. &nbsp;
+4. Response:
 
    ```json
    {
@@ -269,7 +296,3 @@ curl http://localhost:5000/posts
        "message": "Post created successfully"
    }
    ```
-
----
-
-<SwmMeta version="3.0.0" repo-id="Z2l0aHViJTNBJTNBYmxvZyUzQSUzQWFsZWtzYW5kZXJ0YXA=" repo-name="blog"><sup>Powered by [Swimm](https://app.swimm.io/)</sup></SwmMeta>

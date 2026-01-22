@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: aleksandertapsi/client:latest
+          image: jarlburget/client:latest
           ports:
             - containerPort: 5173
 ---

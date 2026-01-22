@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: jwt-auth
-          image: aleksandertapsi/jwt-auth:latest
+          image: jarlburget/jwt-auth:latest
           ports:
             - containerPort: 5006
 ---

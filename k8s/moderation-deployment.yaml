@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: moderation
-          image: aleksandertapsi/moderation:latest
+          image: jarlburget/moderation:latest
           ports:
             - containerPort: 5003
 ---
